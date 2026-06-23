@@ -1,0 +1,16 @@
+name: Test bandit check with custom path input
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Run bandit with explicit custom path to clean fixtures
+        id: action
+        uses: .
+        with:
+          path: ./tests/fixtures/clean
+      - name: Assert action succeeded with custom path
+        run: |
+          echo "PASS: bandit ran successfully on custom path ./tests/fixtures/clean"
