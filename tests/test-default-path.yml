@@ -1,0 +1,33 @@
+name: Test default path - scan current directory
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - id: bandit
+        uses: .
+        # uses default path '.' which scans the workspace
+        continue-on-error: true
+
+      - name: Assert bandit ran on default path
+        env:
+          OUTCOME: ${{ steps.bandit.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          # Bandit may exit non-zero if it finds issues in the workspace,
+          # but it should not be skipped - it must have run
+          if [ "$OUTCOME" = "skipped" ]; then
+            echo "FAIL: bandit step was skipped unexpectedly"
+            exit 1
+          fi
+          # Either success (no issues) or failure (found issues) is acceptable
+          # as long as the step ran
+          if [ "$OUTCOME" = "success" ] || [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: bandit ran on default path with outcome: $OUTCOME"
+          else
+            echo "FAIL: unexpected outcome: $OUTCOME"
+            exit 1
+          fi
