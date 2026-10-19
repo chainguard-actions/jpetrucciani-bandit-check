@@ -1,14 +1,40 @@
-# jpetrucciani/bandit-check
+# bandit-check
 
-GitHub action to lint your python code with bandit
+GitHub Action for [bandit](https://github.com/PyCQA/bandit) python security linter
 
-Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/jpetrucciani/bandit-check](https://github.com/jpetrucciani/bandit-check).
+Make sure you have a `.bandit` file at the root of your repository!
 
-## Versions
+## Inputs
 
-| Version | Tag | Upstream commit |
-|---------|-----|-----------------|
-| 1.7.0 | [`1.7.0`](https://github.com/chainguard-actions/jpetrucciani-bandit-check/tree/1.7.0) | [`7775893`](https://github.com/jpetrucciani/bandit-check/commit/777589321f91b8ace16048d1f5a13a8aad6d9dff) |
+### `path`
+
+**Optional** The path to run bandit on
+
+**Default** `"."`
+
+**Optional** Optional Bandit flags (refer to `bandit --help`)
+
+**Default** `""`
+
+## Outputs
+
+None
+
+## Example usage
+
+```yaml
+uses: jpetrucciani/bandit-check@master
+
+# specify a path
+uses: jpetrucciani/bandit-check@master
+with:
+  path: '.'
+
+# provide some flags
+uses: jpetrucciani/bandit-check@master
+with:
+  bandit_flags: '-lll -o output.json -f json'
+```
 
 ## Privacy
 
